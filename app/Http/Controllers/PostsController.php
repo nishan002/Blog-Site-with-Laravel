@@ -87,7 +87,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::all();
+        $post = Post::findOrFail($id);
         $categories = Category::all();
         return view('admin.posts.edit',compact('post','categories'));
     }
@@ -108,18 +108,22 @@ class PostsController extends Controller
             'category_id'   =>  'required',
         ]);
 
-        $file = $request->featured;
-        $name = time() . $file->getClientOriginalName();
-        $file->move('images/post', $name);
+        $post = Post::findOrFail($id);
 
-        $post = Post::update([
-            'title'         =>  $request->title,
-            'featured'      =>  "images/post/" . $name,
-            'content'       =>  $request->content,
-            'category_id'   =>  $request->category_id,
-            'slug'          =>  str_slug($request->title),
-        ]);
+        if($file = $request->file('featured')) {
 
+            $name = time() . $file->getClientOriginalName();
+            $file->move('images/post', $name);
+
+            $post->featured = "images/post/" . $name;
+            $post->title = $request->title;
+            $post->content = $request->content;
+            $post->category_id = $request->category_id;
+            $post->slug = str_slug($request->title);
+
+        }
+
+        $post->save();
         Session::flash('success','Post has been created successfully');
         return redirect()->back();
     }
@@ -147,6 +151,13 @@ class PostsController extends Controller
         $posts = Post::withTrashed()->where('id', $id)->first();
         $posts->forceDelete();
         session()->flash('success', 'The post has been successfully deleted');
+        return redirect()->back();
+    }
+
+    public function restore($id){
+        $posts = Post::withTrashed()->where('id', $id)->first();
+        $posts->restore();
+        session()->flash('success', 'The post has been successfully restored');
         return redirect()->back();
     }
 }

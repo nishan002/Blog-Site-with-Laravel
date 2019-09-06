@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="card">
-        <div class="card-header"><h3 style="text-align: center">Create Post</h3></div>
+        <div class="card-header"><h3 style="text-align: center">Edit Post</h3></div>
         <div class="card-body">
-            <form action="{{route('post.update',['id' => $post->id])}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('post.update',['id'=> $post->id])}}" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
                 @method('put')
 
@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label for="category">Select Category</label>
                     <select name="category_id" id="category" class="form-control">
-                        <option value="">Select Category</option>
+                        <option value="">{{$post->category->name}}</option>
                         @foreach($categories as $category)
                             <option value="{{$category->id}}">{{$category->name}}</option>
                         @endforeach
