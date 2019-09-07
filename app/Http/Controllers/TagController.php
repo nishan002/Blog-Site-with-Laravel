@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tag;
+use Session;
 class TagController extends Controller
 {
     /**
@@ -35,8 +36,11 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'tag'   =>  'required',
+        ]);
         Tag::create([
-            'tag'   =>  $request->tag;
+            'tag'   =>  $request->tag,
         ]);
         session()->flash('success','Tag created');
         return redirect()->back();

@@ -6,6 +6,7 @@ use Session;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Post;
+use App\Tag;
 
 class PostsController extends Controller
 {
@@ -27,13 +28,13 @@ class PostsController extends Controller
      */
     public function create()
     {
+        $tags = Tag::all();
         $categories = Category::all();
         if($categories->count() == 0){
             session::flash('info','Create a category first');
-
             return redirect()->back();
         }
-        return view('admin.posts.create',compact('categories'));
+        return view('admin.posts.create',compact('categories','tags'));
     }
 
     /**
@@ -60,9 +61,10 @@ class PostsController extends Controller
             'featured'      =>  "images/post/" . $name,
             'content'       =>  $request->content,
             'category_id'   =>  $request->category_id,
+            'tag'           =>  $request->tag,
             'slug'          =>  str_slug($request->title),
         ]);
-
+        $post->tags()->attach($request->tags);
         Session::flash('success','Post has been created successfully');
         return redirect()->back();
 
@@ -89,7 +91,8 @@ class PostsController extends Controller
     {
         $post = Post::findOrFail($id);
         $categories = Category::all();
-        return view('admin.posts.edit',compact('post','categories'));
+        $tags = Tag::all();
+        return view('admin.posts.edit',compact('post','categories','tags'));
     }
 
     /**
@@ -108,6 +111,7 @@ class PostsController extends Controller
             'category_id'   =>  'required',
         ]);
 
+
         $post = Post::findOrFail($id);
 
         if($file = $request->file('featured')) {
@@ -124,6 +128,7 @@ class PostsController extends Controller
         }
 
         $post->save();
+        $post->tags()->sync($request->tags);
         Session::flash('success','Post has been created successfully');
         return redirect()->back();
     }
