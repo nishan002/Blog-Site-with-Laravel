@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Category;
+use App\User;
+use App\Profile;
 use Session;
-
-class CategoriesController extends Controller
+class UsersController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +20,8 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
-        return view('admin.category.index',compact('categories'));
+        $users  =  User::all();
+        return view('admin.user.index',compact('users'));
     }
 
     /**
@@ -26,7 +31,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('admin.category.create');
+        return view('admin.user.create');
     }
 
     /**
@@ -39,14 +44,21 @@ class CategoriesController extends Controller
     {
         $this->validate($request,[
             'name'  =>  'required',
+            'email' =>  'required|email',
         ]);
 
-        $category = new Category;
-        $category->name =   $request->name;
-        $category->save();
+        $user=User::create([
+            'name'      =>  $request->name,
+            'email'     =>  $request->email,
+            'password'  =>  bcrypt('password'),
+        ]);
 
-        session::flash('success','Category has been created successfully');
+        $profile=Profile::create([
+            'user_id'   =>  $user->id,
+            'avatar'    =>  'images/avatars/1.png',
+        ]);
 
+        session()->flash('success','Successfully created new user');
         return redirect()->back();
     }
 
@@ -69,8 +81,7 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
-        return view('admin.category.edit',compact('category'));
+        //
     }
 
     /**
@@ -82,11 +93,7 @@ class CategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
-        $category->name =   $request->name;
-        $category->save();
-        session()->flash('success','Post has been updated successfully');
-        return redirect()->route('category.index');
+        //
     }
 
     /**
@@ -97,12 +104,26 @@ class CategoriesController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::findOrFail($id);
-        foreach ($category->posts as $post){
-            $post->forcedelete();
-        }
-        $category->delete();
-        session::flash('success','Post has been deleted successfully');
-        return redirect()->route('category.index');
+        $user = User::findOrFail($id);
+        $user->profile->delete();
+        $user->delete();
+        session()->flash('success','Successfully deleted user');
+        return redirect()->back();
+    }
+
+    public function admin($id){
+        $user = User::findOrFail($id);
+        $user->admin = 1;
+        $user->save();
+        session()->flash('success','Successfully change permission');
+        return redirect()->back();
+    }
+
+    public function not_admin($id){
+        $user = User::findOrFail($id);
+        $user->admin = 0;
+        $user->save();
+        session()->flash('success','Successfully change permission');
+        return redirect()->back();
     }
 }
