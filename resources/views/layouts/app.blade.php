@@ -18,7 +18,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
-
+    @yield('styles')
 </head>
 <body>
     <div id="app">
@@ -113,6 +113,11 @@
                         <li class="list-group-item">
                             <a href="{{route('tag.create')}}">Create Tag</a>
                         </li>
+                        @if(Auth::user()->admin)
+                            <li class="list-group-item">
+                                <a href="{{route('settings.index')}}">Setting</a>
+                            </li>
+                        @endif
                     </ul>
                </div>
                    <div class="col-lg-8">
@@ -136,5 +141,6 @@
             toastr.info("{{ Session::get('info') }}");
         @endif
     </script>
+    @yield('scripts')
 </body>
 </html>
