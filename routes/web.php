@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[
+    'uses'  =>  'FrontendController@index',
+    'as'    =>  'index'
+]);
 
 Auth::routes();
 
@@ -164,4 +165,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function(){
         'uses'  =>  'TagController@destroy',
         'as'    =>  'tag.delete',
     ]);
+
 });

@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="35641751-fe86-47ee-8ed8-44b5a5b942a7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/setting/settings.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/includes/footer.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/includes/frontend.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/includes/header.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/single.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PostsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PostsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/posts/create.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/posts/create.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/posts/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/posts/index.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
@@ -172,7 +172,9 @@
       <workItem from="1567830374583" duration="11027000" />
       <workItem from="1567871544640" duration="6290000" />
       <workItem from="1567916713768" duration="7906000" />
-      <workItem from="1567935120638" duration="718000" />
+      <workItem from="1567935120638" duration="6145000" />
+      <workItem from="1567964438847" duration="599000" />
+      <workItem from="1568002146653" duration="1808000" />
     </task>
     <servers />
   </component>
