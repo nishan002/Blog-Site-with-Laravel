@@ -92,6 +92,7 @@ class ProfilesController extends Controller
         $user->email = $request->email;
         $user->profile->facebook = $request->facebook;
         $user->profile->youtube = $request->youtube;
+        $user->profile->about = $request->about;
 
         if($request->has('password')){
             $user->password = bcrypt($request->password);

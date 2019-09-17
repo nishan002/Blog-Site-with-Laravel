@@ -11,10 +11,33 @@
 |
 */
 
+
 Route::get('/',[
     'uses'  =>  'FrontendController@index',
     'as'    =>  'index'
 ]);
+Route::get('/post/{slug}',[
+    'uses'  =>  'FrontendController@singlepost',
+    'as'    =>  'post.single',
+]);
+Route::get('category/{id}',[
+    'uses'  =>  'FrontendController@category',
+    'as'    =>  'category.single',
+]);
+Route::get('tag/{id}',[
+    'uses'  =>  'FrontendController@tag',
+    'as'    =>  'tag.single',
+]);
+Route::get('/results', function(){
+    $posts = App\Post::where('title', 'like', '%' . request('query') . '%')->get();
+
+    return view('results')
+        ->with('posts', $posts)
+        ->with('title', 'Search results : ' . request('query'))
+        ->with('settings', App\Setting::first())
+        ->with('categories', App\Category::take(4)->get())
+        ->with('query', request('query'));
+});
 
 Auth::routes();
 

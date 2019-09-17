@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Category;
 use App\Post;
 use App\Tag;
-
+use Auth;
 class PostsController extends Controller
 {
     /**
@@ -50,6 +50,7 @@ class PostsController extends Controller
             'featured'      =>  'required|image',
             'content'       =>  'required',
             'category_id'   =>  'required',
+            'user_id'       =>  'required',
         ]);
 
         $file = $request->featured;
@@ -63,6 +64,7 @@ class PostsController extends Controller
             'category_id'   =>  $request->category_id,
             'tag'           =>  $request->tag,
             'slug'          =>  str_slug($request->title),
+            'user_id'       =>  Auth::id(),
         ]);
         $post->tags()->attach($request->tags);
         Session::flash('success','Post has been created successfully');
